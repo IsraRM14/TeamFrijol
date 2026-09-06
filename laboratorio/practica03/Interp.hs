@@ -5,6 +5,7 @@ import Grammars
 -- RETO 3: sustitucion nominal que evita captura
 freeVars :: ASA -> [String]
 
+
 names :: ASA -> [String]
 
 freshName :: [String] -> String
