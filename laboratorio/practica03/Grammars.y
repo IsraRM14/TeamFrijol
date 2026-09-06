@@ -53,6 +53,9 @@ ASA : nat                           { Num $1 }
     | '(' "add1" ASA ')'            { Add1 $3 }
     | '(' "sub1" ASA ')'            { Sub1 $3 }
     | '(' "zero?" ASA ')'           { ZeroP $3 }
+    | id                            { Id $1 }
+    | '(' "let" Bindings ASA ')'    { Let $3 }
+    | '(' "let*" Bindings ASA ')'   { LetStar $3 }
 
 -- RETO 2
 -- Completa las producciones para:
@@ -63,6 +66,13 @@ ASA : nat                           { Num $1 }
 
 Args : ASA ASA                       { [$1, $2] }
      | ASA Args                      { $1 : $2 }
+
+id : var                             { $1 }
+
+Bindings : Binding                   { [$1] }
+         | Binding Bindings          { $1 : $2 }
+         
+Binding : '(' var ASA ')'            { ($2, $3) }
 
 {
 parseError :: [Token] -> a

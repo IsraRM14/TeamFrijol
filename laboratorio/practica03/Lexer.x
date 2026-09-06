@@ -13,6 +13,7 @@ $letter = [A-Za-z_]
 $idrest = [A-Za-z0-9_]
 
 @nat = 0 | $nonzero $digit*
+@id = $letter $idrest*
 
 tokens :-
 
@@ -48,6 +49,10 @@ tokens :-
   -- RETO 1
   -- Agrega, en el orden correcto, las reglas para:
   --   let, let* e identificadores.
+
+  "let"                 { \_ -> TokenLet }
+  "let*"                { \_ -> TokenLetStar }
+  @id                   { \s -> TokenId (read s) }
 
   .                     { \s -> error ("Lexical error: caracter no reconocido = "
                                       ++ show s
